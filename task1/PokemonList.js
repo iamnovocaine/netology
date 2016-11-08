@@ -1,10 +1,11 @@
 const Pokemon = require('./Pokemon'); //данные о покемонах
 class PokemonList extends Array {
     constructor(...pokemons) {
+	pokemons = pokemons.filter(pokemon => pokemon instanceof Pokemon);
         super(...pokemons);
     }
     show() {
-        console.log("Выводим покемонов ... (всего %d)", this.length);
+        console.log(`Выводим покемонов ... (всего ${this.length})`);
         for (let pokemon of this) {
             pokemon.show();
         }
@@ -12,20 +13,10 @@ class PokemonList extends Array {
 	add(level, name){
 		let newPokemon = new Pokemon(level, name);
 		this.push(newPokemon);
-    }
+   	}
 	max() {
 		let LevelMax = Math.max(...this);
-		for (let pokemon of this) {
-            if(pokemon.level == LevelMax)
-				return pokemon;		
-        }
-	}
-	max1() {		
-		let LevelMax = Math.max(...this);
-		for (let pokemon of this) {
-            if(pokemon.valueOf() == LevelMax)
-				return pokemon;		
-        }
+		return this.find(item => item.level == LevelMax);
 	}
 }
 module.exports = PokemonList;
