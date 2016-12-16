@@ -1,0 +1,23 @@
+html
+	head
+		title Удалить задачу
+	body
+		h1 Удалить задачу
+	-if (error)
+		div error
+	-else
+		form(name="editUser", method="post")
+			div.input
+				span.label Имя
+				br
+				input(type="text", name="name" value=task.name)
+			div.input
+				span.label Описание
+				br
+				textarea(name="description", cols="40", rows="5")
+					=task.description
+			div.actions
+				br
+				input(type="submit", value="Удалить")
+		p
+			a(class='button', href='/tasks/') Вернуться в список

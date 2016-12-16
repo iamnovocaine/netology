@@ -1,0 +1,28 @@
+html
+	head
+		title Список задач
+	body
+		h1 Список задач
+	-if (error)
+		div error
+	-else
+		-each task in tasks
+			p 
+				b Имя: 
+				=task.name
+			p
+				b Описание: 
+				=task.description
+			-if(task.opened)
+				b Открыта
+			-else
+				b Закрыта
+			p
+				a(class='button', href='/task/edit/' + task.id) Изменить
+			p
+				a(class='button', href='/task/delete/' + task.id) Удалить
+			hr
+		p
+			a(class='button', href='/task/add/') Добавить задачу
+		p
+			a(class='button', href='/users/') Список пользователей

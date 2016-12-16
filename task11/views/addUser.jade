@@ -1,0 +1,18 @@
+html
+	head
+		title Добавить пользователя
+	body
+		h1 Добавить пользователя
+	-if (error)
+		div error
+	-else
+		form(name="addUser", method="post")
+			div.input
+				span.label Имя
+				br
+				input(type="text", name="name")
+			div.actions
+				br
+				input(type="submit", value="Добавить")
+		p
+			a(class='button', href='/users/') Вернуться в список

@@ -1,0 +1,21 @@
+html
+	head
+		title Список пользователей
+	body
+		h1 Список пользователей
+	-if (error)
+		div error
+	-else
+		-each user in users
+			p 
+				b Имя: 
+				=user.name
+			p
+				a(class='button', href='/user/edit/' + user.id) Изменить
+			p
+				a(class='button', href='/user/delete/' + user.id) Удалить
+			hr
+		p
+			a(class='button', href='/user/add/') Добавить пользователя
+		p
+			a(class='button', href='/') Список задач

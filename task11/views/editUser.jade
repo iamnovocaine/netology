@@ -1,0 +1,18 @@
+html
+	head
+		title Изменить пользователя
+	body
+		h1 Изменить пользователя
+	-if (error)
+		div error
+	-else
+		form(name="editUser", method="post")
+			div.input
+				span.label Имя
+				br
+				input(type="text", name="name" value=user.name)
+			div.actions
+				br
+				input(type="submit", value="Изменить")
+		p
+			a(class='button', href='/users/') Вернуться в список

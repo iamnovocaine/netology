@@ -1,0 +1,28 @@
+html
+	head
+		title Изменить задачу
+	body
+		h1 Изменить задачу
+	-if (error)
+		div error
+	-else
+		form(name="editUser", method="post")
+			div.input
+				span.label Имя
+				br
+				input(type="text", name="name" value=task.name)
+			div.input
+				span.label Описание
+				br
+				textarea(name="description", cols="40", rows="5")
+					=task.description
+			-if (task.opened)
+				span.label Изменить статус?
+				input(type="radio", name="opened", value="1")
+			-else
+				span.label Изменить статус?
+				input(type="radio", name="opened", value="0")
+			div.actions
+				input(type="submit", value="Изменить")
+		p
+			a(class='button', href='/') Вернуться в список
