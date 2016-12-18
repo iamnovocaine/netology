@@ -6,22 +6,30 @@ html
 	-if (error)
 		div error
 	-else
-		-each task in tasks
+		-var i=0
+		-for task in tasks
 			p 
 				b Имя: 
 				=task.name
 			p
 				b Описание: 
 				=task.description
-			-if(task.opened)
-				b Открыта
-			-else
-				b Закрыта
+			p
+				b Статус: 
+					-if(task.opened)
+						b Открыта
+					-else
+						b Закрыта
+			p Пользователь:
+			-if(task.user)
+				b
+					=delegate[i] + ' (' + task.user + ')'					
 			p
 				a(class='button', href='/task/edit/' + task.id) Изменить
 			p
 				a(class='button', href='/task/delete/' + task.id) Удалить
 			hr
+			-i++
 		p
 			a(class='button', href='/task/add/') Добавить задачу
 		p

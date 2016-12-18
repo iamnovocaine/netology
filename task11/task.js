@@ -1,13 +1,44 @@
 const model = require("./model");
 const Task = model.Task;
+const User = model.User;
 
 function list(req, res) {
-    Task.find({}, function (err, taskList) {
-        let context = {
-            tasks: taskList,
-            error: req.query.error
-        };
-        res.render('tasks', context);
+	var taskUser = [];
+	let search = {};
+	if(req.query) {
+		if(req.query.description)
+			search.description = req.query.description;
+		if(req.query.name)
+			search.name = req.query.name;
+	}
+	//console.log(search);
+    Task.find(search, function (err, taskList) {
+		if (err)
+            console.log(err);
+		else {
+			console.log(taskList);
+			taskList .forEach(function(item, i, arr) {
+				User.find({"_id": item.user} , function(er , db){
+					doSomething(db, i, arr);					
+				});
+			});
+			function doSomething(Users, i, arr){
+				if(Users.length) {
+					taskUser[i] = Users[0].name;
+				}
+				else {
+					taskUser[i] = '';	
+				}
+				if((i+1) == arr.length) {
+					let context = {
+						tasks: taskList,
+						delegate: taskUser,
+						error: req.query.error
+					};
+					res.render('tasks', context);
+				}
+			};
+		}
     });
 }
 
@@ -50,20 +81,32 @@ function addPage(req, res) {
     };
     res.render('addTask', context);
 }
+
 function editPage(req, res) {
 	let id = req.params.id;
-	Task.findById(id, function(err, result){
+	var Users;
+
+	User.find({} , function(er , db){
+	  Users = db;
+	  //console.log(i); // works fine
+	  doSomethingElse();
+	});
+	function doSomethingElse(){
+		Task.findById(id, function(err, result){
         let context = {
             task: {
                 name: result.name,
 				description: result.description,
                 id: id,
-				//opened: result.opened,
-                error: req.query.error
+				opened: result.opened,
+                error: req.query.error,
+				user: result.user,
+				users: Users,
             },
         };
         res.render('editTask', context);
     });
+	}
 }
 function deletePage(req, res) {
 	let id = req.params.id;

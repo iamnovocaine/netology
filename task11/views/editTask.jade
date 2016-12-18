@@ -16,13 +16,29 @@ html
 				br
 				textarea(name="description", cols="40", rows="5")
 					=task.description
-			-if (task.opened)
-				span.label Изменить статус?
-				input(type="radio", name="opened", value="1")
+			br
+			-if (task.opened)	
+				input(type="radio", name="opened", value="1", checked=true)
 			-else
-				span.label Изменить статус?
+				input(type="radio", name="opened", value="1")
+			span.label Открыта
+			-if (task.opened)	
 				input(type="radio", name="opened", value="0")
+			-else
+				input(type="radio", name="opened", value="0", checked=true)
+			span.label Закрыта
+			br
+			br
+			-if(task.users.length)
+				span.label Делегировать на пользователя
+				br
+				select(id="user", name="user", size=5)
+					-for item in task.users
+						option(value=item.id, selected=task.user == item.id)
+							=item.name
+			
 			div.actions
+				br
 				input(type="submit", value="Изменить")
 		p
 			a(class='button', href='/') Вернуться в список
